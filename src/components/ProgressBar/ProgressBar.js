@@ -8,15 +8,25 @@ import VisuallyHidden from "../VisuallyHidden";
 const calculatePercentage = (value, min, max) =>
   ((value - min) / (max - min)) * 100;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  border-radius: 4px;
+  box-shadow: inset 0px 2px 4px rgba(128, 128, 128, 0.35);
+  background: ${COLORS.transparentGray15};
+`;
+
 const StyledBar = styled.div`
+  --border-radius: 4px;
   background-color: ${COLORS.primary};
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
   border-top-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(value, min, max) === 100 ? "4px" : "none"};
+    calculatePercentage(value, min, max) === 100
+      ? "var(--border-radius)"
+      : "none"};
   border-bottom-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(value, min, max) === 100 ? "4px" : "none"};
+    calculatePercentage(value, min, max) === 100
+      ? "var(--border-radius)"
+      : "none"};
   height: 12px;
   width: ${({ value, min, max }) => calculatePercentage(value, min, max)}%;
 `;
