@@ -12,6 +12,10 @@ const Wrapper = styled.div`
   border-radius: 4px;
   box-shadow: inset 0px 2px 4px rgba(128, 128, 128, 0.35);
   background: ${COLORS.transparentGray15};
+
+  &.large {
+    padding: 4px;
+  }
 `;
 
 const StyledBar = styled.div`
@@ -29,11 +33,19 @@ const StyledBar = styled.div`
       : "none"};
   height: 12px;
   width: ${({ value, min, max }) => calculatePercentage(value, min, max)}%;
+
+  ${Wrapper}.small & {
+    height: 8px;
+  }
+
+  ${Wrapper}.large & {
+    height: 16px;
+  }
 `;
 
-const ProgressBar = ({ min = 0, max = 100, value = 0, size }) => {
+const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
   return (
-    <Wrapper>
+    <Wrapper className={size} data-testid="progressBar">
       <StyledBar
         aria-valuenow={value}
         aria-valuemin={min}

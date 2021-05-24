@@ -64,6 +64,36 @@ test("Can increment the value", async () => {
   expect(component).toHaveStyleRule("width", `${expectedValue}%`);
 });
 
+test("will render a medium bar by default", async () => {
+  render(<ProgressBar />);
+
+  const component = await screen.findByTestId("progressBar");
+
+  expect(component).toHaveClass("medium");
+});
+
+test("can render different size variants", async () => {
+  const { rerender } = render(<ProgressBar size="small" />);
+
+  const component = await screen.findByTestId("progressBar");
+
+  expect(component).toHaveClass("small");
+  expect(component).not.toHaveClass("medium");
+  expect(component).not.toHaveClass("large");
+
+  rerender(<ProgressBar size="medium" />);
+
+  expect(component).not.toHaveClass("small");
+  expect(component).toHaveClass("medium");
+  expect(component).not.toHaveClass("large");
+
+  rerender(<ProgressBar size="large" />);
+
+  expect(component).not.toHaveClass("small");
+  expect(component).not.toHaveClass("medium");
+  expect(component).toHaveClass("large");
+});
+
 test.todo(
   "Will set to default max value if value now is initialised higher than the default max value"
 );
