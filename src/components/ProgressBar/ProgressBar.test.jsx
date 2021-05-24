@@ -124,6 +124,8 @@ test("Will set to min value if lower than default min value", async () => {
   const component = await screen.findByRole("progressbar");
 
   expect(component).toHaveAttribute("aria-valuenow", "0");
+  expect(component).toHaveStyleRule("width", `0%`);
+  expect(component).toHaveTextContent("0%");
 });
 
 test("Will set to min value if lower than the set min value", async () => {
@@ -132,4 +134,6 @@ test("Will set to min value if lower than the set min value", async () => {
   const component = await screen.findByRole("progressbar");
 
   expect(component).toHaveAttribute("aria-valuenow", "10");
+  expect(component).toHaveStyleRule("width", `0%`);
+  expect(component).toHaveTextContent("0%");
 });

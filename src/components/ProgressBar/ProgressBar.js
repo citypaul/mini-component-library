@@ -74,7 +74,9 @@ const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
         value={value}
         role="progressbar"
       >
-        {calculatePercentage(valueInBounds, min, max)}%
+        <VisuallyHidden>
+          {calculatePercentage(valueInBounds, min, max)}%
+        </VisuallyHidden>
       </StyledBar>
     </Wrapper>
   );
