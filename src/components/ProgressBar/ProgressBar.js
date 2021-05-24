@@ -23,17 +23,12 @@ const StyledBar = styled.div`
   background-color: ${COLORS.primary};
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
-  border-top-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(getValueInBounds(value, min, max), min, max) === 100
-      ? "var(--border-radius)"
-      : "none"};
-  border-bottom-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(getValueInBounds(value, min, max), min, max) === 100
-      ? "var(--border-radius)"
-      : "none"};
+  border-top-right-radius: ${({ percentage }) =>
+    percentage === 100 ? "var(--border-radius)" : "none"};
+  border-bottom-right-radius: ${({ percentage }) =>
+    percentage === 100 ? "var(--border-radius)" : "none"};
   height: 12px;
-  width: ${({ value, min, max }) =>
-    calculatePercentage(getValueInBounds(value, min, max), min, max)}%;
+  width: ${({ percentage }) => percentage}%;
 
   ${Wrapper}.small & {
     height: 8px;
@@ -62,6 +57,7 @@ const getValueInBounds = (value, min, max) => {
 
 const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
   const valueInBounds = getValueInBounds(value, min, max);
+  const percentage = calculatePercentage(valueInBounds, min, max);
 
   return (
     <Wrapper className={size} data-testid="progressBar">
@@ -69,14 +65,10 @@ const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
         aria-valuenow={valueInBounds}
         aria-valuemin={min}
         aria-valuemax={max}
-        min={min}
-        max={max}
-        value={value}
+        percentage={percentage}
         role="progressbar"
       >
-        <VisuallyHidden>
-          {calculatePercentage(valueInBounds, min, max)}%
-        </VisuallyHidden>
+        <VisuallyHidden>{percentage}%</VisuallyHidden>
       </StyledBar>
     </Wrapper>
   );
