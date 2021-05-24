@@ -94,6 +94,34 @@ test("can render different size variants", async () => {
   expect(component).toHaveClass("large");
 });
 
-test.todo(
-  "Will set to default max value if value now is initialised higher than the default max value"
-);
+test("Will set to default max value if value now is initialised higher than the default max value", async () => {
+  render(<ProgressBar value="101" />);
+
+  const component = await screen.findByRole("progressbar");
+
+  expect(component).toHaveAttribute("aria-valuenow", "100");
+});
+
+test("Will set to max value if higher than the set max value", async () => {
+  render(<ProgressBar max="300" value="301" />);
+
+  const component = await screen.findByRole("progressbar");
+
+  expect(component).toHaveAttribute("aria-valuenow", "300");
+});
+
+test("Will set to min value if lower than default min value", async () => {
+  render(<ProgressBar value="-1" />);
+
+  const component = await screen.findByRole("progressbar");
+
+  expect(component).toHaveAttribute("aria-valuenow", "0");
+});
+
+test("Will set to min value if lower than the set min value", async () => {
+  render(<ProgressBar min="10" value="5" />);
+
+  const component = await screen.findByRole("progressbar");
+
+  expect(component).toHaveAttribute("aria-valuenow", "10");
+});

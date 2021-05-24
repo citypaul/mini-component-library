@@ -43,11 +43,27 @@ const StyledBar = styled.div`
   }
 `;
 
+const getValueInBounds = (value, min, max) => {
+  if (value > max) {
+    return max;
+  }
+
+  if (value < min) {
+    return min;
+  }
+
+  return value;
+};
+
 const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
   return (
     <Wrapper className={size} data-testid="progressBar">
       <StyledBar
-        aria-valuenow={value}
+        aria-valuenow={getValueInBounds(
+          parseInt(value),
+          parseInt(min),
+          parseInt(max)
+        )}
         aria-valuemin={min}
         aria-valuemax={max}
         min={min}
