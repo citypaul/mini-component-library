@@ -5,16 +5,24 @@ import styled from "styled-components";
 import { COLORS } from "../../constants";
 import VisuallyHidden from "../VisuallyHidden";
 
+const calculatePercentage = (value, min, max) =>
+  ((value - min) / (max - min)) * 100;
+
 const Wrapper = styled.div``;
 const StyledBar = styled.div`
   background-color: ${COLORS.primary};
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
-  border-top-right-radius: ${(props) => (props.value === 100 ? "4px" : "none")};
+  border-top-right-radius: ${(props) =>
+    calculatePercentage(props.value, props.min, props.max) === 100
+      ? "4px"
+      : "none"};
   border-bottom-right-radius: ${(props) =>
-    props.value === 100 ? "4px" : "none"};
+    calculatePercentage(props.value, props.min, props.max) === 100
+      ? "4px"
+      : "none"};
   height: 12px;
-  width: ${(props) => props.value}%;
+  width: ${(props) => calculatePercentage(props.value, props.min, props.max)}%;
 `;
 
 const ProgressBar = ({ min = 0, max = 100, value = 0, size }) => {
