@@ -59,13 +59,16 @@ const getValueInBounds = (value, min, max) => {
 };
 
 const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
-  const valueInBounds = getValueInBounds(value, min, max);
-  const percentage = calculatePercentage(valueInBounds, min, max);
+  const percentage = calculatePercentage(
+    getValueInBounds(value, min, max),
+    min,
+    max
+  );
 
   return (
     <Wrapper className={size} data-testid="progressBar">
       <StyledBar
-        aria-valuenow={valueInBounds}
+        aria-valuenow={percentage}
         aria-valuemin={min}
         aria-valuemax={max}
         percentage={percentage}

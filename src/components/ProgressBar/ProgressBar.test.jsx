@@ -16,22 +16,15 @@ test("Defaults to a min of zero and max of 100", async () => {
 test("Can customise the min, max and current values", async () => {
   const expectedMinValue = 10;
   const expectedMaxValue = 20;
-  const expectedNowValue = 15;
+  const value = 15;
 
   const { rerender } = render(
-    <ProgressBar
-      min={expectedMinValue}
-      max={expectedMaxValue}
-      value={expectedNowValue}
-    />
+    <ProgressBar min={expectedMinValue} max={expectedMaxValue} value={value} />
   );
 
   const component = await screen.findByRole("progressbar");
 
-  expect(component).toHaveAttribute(
-    "aria-valuenow",
-    expectedNowValue.toString()
-  );
+  expect(component).toHaveAttribute("aria-valuenow", "50");
 
   expect(component).toHaveAttribute(
     "aria-valuemin",
@@ -113,7 +106,7 @@ test("Will set to max value if higher than the set max value", async () => {
 
   const component = await screen.findByRole("progressbar");
 
-  expect(component).toHaveAttribute("aria-valuenow", "300");
+  expect(component).toHaveAttribute("aria-valuenow", "100");
   expect(component).toHaveStyleRule("width", `100%`);
   expect(component).toHaveTextContent("100%");
 });
@@ -133,7 +126,7 @@ test("Will set to min value if lower than the set min value", async () => {
 
   const component = await screen.findByRole("progressbar");
 
-  expect(component).toHaveAttribute("aria-valuenow", "10");
+  expect(component).toHaveAttribute("aria-valuenow", "0");
   expect(component).toHaveStyleRule("width", `0%`);
   expect(component).toHaveTextContent("0%");
 });
