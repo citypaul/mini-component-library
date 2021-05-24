@@ -43,7 +43,19 @@ test("Can customise the min, max and current values", async () => {
   );
 });
 
-test.todo("Can increment the value");
+test("Can increment the value", async () => {
+  const expectedValue = 30;
+  const { rerender } = render(<ProgressBar />);
+
+  const component = await screen.findByRole("progressbar");
+
+  expect(component).toHaveAttribute("aria-valuenow", "0");
+
+  rerender(<ProgressBar value={expectedValue} />);
+
+  expect(component).toHaveAttribute("aria-valuenow", expectedValue.toString());
+});
+
 test.todo(
   "Will set to default max value if value now is initialised higher than the default max value"
 );
