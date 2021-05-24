@@ -13,6 +13,9 @@ const Wrapper = styled.div`
   box-shadow: inset 0px 2px 4px rgba(128, 128, 128, 0.35);
   background: ${COLORS.transparentGray15};
 
+  /* for when close to 100% */
+  overflow: hidden;
+
   &.large {
     padding: 4px;
   }
