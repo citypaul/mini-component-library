@@ -24,15 +24,16 @@ const StyledBar = styled.div`
   border-top-left-radius: var(--border-radius);
   border-bottom-left-radius: var(--border-radius);
   border-top-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(value, min, max) === 100
+    calculatePercentage(getValueInBounds(value, min, max), min, max) === 100
       ? "var(--border-radius)"
       : "none"};
   border-bottom-right-radius: ${({ value, min, max }) =>
-    calculatePercentage(value, min, max) === 100
+    calculatePercentage(getValueInBounds(value, min, max), min, max) === 100
       ? "var(--border-radius)"
       : "none"};
   height: 12px;
-  width: ${({ value, min, max }) => calculatePercentage(value, min, max)}%;
+  width: ${({ value, min, max }) =>
+    calculatePercentage(getValueInBounds(value, min, max), min, max)}%;
 
   ${Wrapper}.small & {
     height: 8px;
@@ -44,33 +45,37 @@ const StyledBar = styled.div`
 `;
 
 const getValueInBounds = (value, min, max) => {
-  if (value > max) {
-    return max;
+  const intValue = parseInt(value);
+  const intMin = parseInt(min);
+  const intMax = parseInt(max);
+
+  if (intValue > intMax) {
+    return intMax;
   }
 
-  if (value < min) {
-    return min;
+  if (intValue < intMin) {
+    return intMin;
   }
 
-  return value;
+  return intValue;
 };
 
 const ProgressBar = ({ min = 0, max = 100, value = 0, size = "medium" }) => {
+  const valueInBounds = getValueInBounds(value, min, max);
+
   return (
     <Wrapper className={size} data-testid="progressBar">
       <StyledBar
-        aria-valuenow={getValueInBounds(
-          parseInt(value),
-          parseInt(min),
-          parseInt(max)
-        )}
+        aria-valuenow={valueInBounds}
         aria-valuemin={min}
         aria-valuemax={max}
         min={min}
         max={max}
         value={value}
         role="progressbar"
-      ></StyledBar>
+      >
+        {calculatePercentage(valueInBounds, min, max)}%
+      </StyledBar>
     </Wrapper>
   );
 };

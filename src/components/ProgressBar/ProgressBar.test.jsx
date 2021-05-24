@@ -10,6 +10,7 @@ test("Defaults to a min of zero and max of 100", async () => {
   expect(component).toHaveAttribute("aria-valuenow", "0");
   expect(component).toHaveAttribute("aria-valuemin", "0");
   expect(component).toHaveAttribute("aria-valuemax", "100");
+  expect(component).toHaveTextContent("0%");
 });
 
 test("Can customise the min, max and current values", async () => {
@@ -47,6 +48,7 @@ test("Can customise the min, max and current values", async () => {
   rerender(<ProgressBar min={50} max={100} value={100} />);
 
   expect(component).toHaveStyleRule("width", `100%`);
+  expect(component).toHaveTextContent("100%");
 });
 
 test("Can increment the value", async () => {
@@ -57,11 +59,13 @@ test("Can increment the value", async () => {
 
   expect(component).toHaveAttribute("aria-valuenow", "0");
   expect(component).toHaveStyleRule("width", `0%`);
+  expect(component).toHaveTextContent("0%");
 
   rerender(<ProgressBar value={expectedValue} />);
 
   expect(component).toHaveAttribute("aria-valuenow", expectedValue.toString());
   expect(component).toHaveStyleRule("width", `${expectedValue}%`);
+  expect(component).toHaveTextContent(`${expectedValue.toString()}%`);
 });
 
 test("will render a medium bar by default", async () => {
@@ -100,6 +104,8 @@ test("Will set to default max value if value now is initialised higher than the 
   const component = await screen.findByRole("progressbar");
 
   expect(component).toHaveAttribute("aria-valuenow", "100");
+  expect(component).toHaveStyleRule("width", `100%`);
+  expect(component).toHaveTextContent("100%");
 });
 
 test("Will set to max value if higher than the set max value", async () => {
@@ -108,6 +114,8 @@ test("Will set to max value if higher than the set max value", async () => {
   const component = await screen.findByRole("progressbar");
 
   expect(component).toHaveAttribute("aria-valuenow", "300");
+  expect(component).toHaveStyleRule("width", `100%`);
+  expect(component).toHaveTextContent("100%");
 });
 
 test("Will set to min value if lower than default min value", async () => {
